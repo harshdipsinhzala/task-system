@@ -7,7 +7,7 @@ import Textbox from "./Textbox";
 import Loading from "./Loader";
 import Button from "./Button";
 import { toast } from "sonner";
-import { apiUrl } from "../utils/api";
+import { apiUrl } from "../utils/api.js";
 
 const AddUser = ({ open, setOpen, userData, refetch }) => {
   const { user } = useSelector((state) => state.auth);

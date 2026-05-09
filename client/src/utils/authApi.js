@@ -1,5 +1,5 @@
 import axios from "axios";
-import { apiUrl } from "./api";
+import { apiUrl } from "./api.js";
 
 const API_URL = apiUrl("/user");
 

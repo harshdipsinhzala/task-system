@@ -3,7 +3,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Modal from "./TaskModal";
 import axios from "axios";
 import clsx from "clsx";
-import { apiUrl } from "../utils/api";
+import { apiUrl } from "../utils/api.js";
 
 const statusColors = {
   todo: "border-blue-400 text-blue-600",

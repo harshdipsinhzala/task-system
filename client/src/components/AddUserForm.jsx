@@ -7,7 +7,7 @@ import Button from "./Button";
 import ModalWrapper from "./ModalWrapper";
 import { Dialog } from "@headlessui/react";
 import Loading from "./Loader";
-import { apiUrl } from "../utils/api";
+import { apiUrl } from "../utils/api.js";
 
 const AddUserForm = ({ open, setOpen, refetch, userData }) => {
   const { user } = useSelector((state) => state.auth);

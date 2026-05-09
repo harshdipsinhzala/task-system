@@ -1,6 +1,6 @@
 // client/src/redux/notificationService.js
 import axios from "axios";
-import { apiUrl } from "../utils/api";
+import { apiUrl } from "../utils/api.js";
 
 const API_BASE = apiUrl("/notifications");
 

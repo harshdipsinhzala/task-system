@@ -11,7 +11,7 @@ import UserInfo from "../UserInfo";
 import Button from "../Button";
 import ConfirmatioDialog from "../Dialogs";
 import axios from "axios";
-import { apiUrl } from "../../utils/api";
+import { apiUrl } from "../../utils/api.js";
 
 const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
