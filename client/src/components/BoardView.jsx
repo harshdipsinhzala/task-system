@@ -4,6 +4,7 @@ import Modal from "./TaskModal";
 import axios from "axios";
 import clsx from "clsx";
 import { apiUrl } from "../utils/api.js";
+import { getInitials } from "../utils";
 
 const statusColors = {
   todo: "border-blue-400 text-blue-600",
@@ -140,11 +141,7 @@ const BoardView = ({ tasks = [], onStatusChange, onEdit }) => {
                                           BGS[idx % BGS.length]
                                         )}
                                       >
-                                        {m.name
-                                          .split(" ")
-                                          .map((n) => n[0])
-                                          .join("")
-                                          .toUpperCase()}
+                                        {getInitials(m?.name)}
                                       </div>
                                     ))}
                                   </div>
