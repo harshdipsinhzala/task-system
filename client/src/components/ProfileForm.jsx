@@ -7,6 +7,7 @@ import Textbox from "./Textbox";
 import Loading from "./Loader";
 import Button from "./Button";
 import { toast } from "sonner";
+import { apiUrl } from "../utils/api";
 
 const ProfileForm = ({ open, setOpen, userData, refetch }) => {
   const { user } = useSelector((state) => state.auth);
@@ -34,8 +35,7 @@ const ProfileForm = ({ open, setOpen, userData, refetch }) => {
 
   const handleOnSubmit = async (data) => {
     try {
-      const baseURL = "http://localhost:8800/api";
-      const url = `${baseURL}/user/${userData._id}`;
+      const url = apiUrl(`/user/${userData._id}`);
       
       // Only send the name field since that's the only editable field
       const payload = { name: data.name };

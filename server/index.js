@@ -12,17 +12,20 @@ dotenv.config();
 dbConnection();
 
 const PORT = process.env.PORT || 5000;
+const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:3000,http://localhost:3001")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: allowedOrigins,
     methods: ["GET", "POST", "DELETE", "PUT"],
     credentials: true,
   })
 );
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

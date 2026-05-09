@@ -1,6 +1,7 @@
 import axios from "axios";
+import { apiUrl } from "./api";
 
-const API_URL = "http://localhost:8800/api/user"; // Replace with your backend URL
+const API_URL = apiUrl("/user");
 
 export const authApi = {
   // Login API

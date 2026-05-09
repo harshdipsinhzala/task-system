@@ -7,6 +7,7 @@ import Button from "./Button";
 import ModalWrapper from "./ModalWrapper";
 import { Dialog } from "@headlessui/react";
 import Loading from "./Loader";
+import { apiUrl } from "../utils/api";
 
 const AddUserForm = ({ open, setOpen, refetch, userData }) => {
   const { user } = useSelector((state) => state.auth);
@@ -39,8 +40,8 @@ const AddUserForm = ({ open, setOpen, refetch, userData }) => {
     try {
       const isEdit = !!userData;
       const url = isEdit
-        ? `http://localhost:8800/api/users/${userData._id}`
-        : "http://localhost:8800/api/user/register";
+        ? apiUrl(`/user/${userData._id}`)
+        : apiUrl("/user/register");
 
       const method = isEdit ? "PUT" : "POST";
 

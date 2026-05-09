@@ -1,7 +1,8 @@
 // client/src/redux/notificationService.js
 import axios from "axios";
+import { apiUrl } from "../utils/api";
 
-const API_BASE = "/api/notifications";
+const API_BASE = apiUrl("/notifications");
 
 export const getNotifications = async (token, skip = 0, limit = 30) => {
   try {

@@ -3,6 +3,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Modal from "./TaskModal";
 import axios from "axios";
 import clsx from "clsx";
+import { apiUrl } from "../utils/api";
 
 const statusColors = {
   todo: "border-blue-400 text-blue-600",
@@ -71,7 +72,7 @@ const BoardView = ({ tasks = [], onStatusChange, onEdit }) => {
         stage: destination.droppableId,
       };
 
-      const response = await axios.put(`/api/tasks/${draggableId}`, {
+      const response = await axios.put(apiUrl(`/tasks/${draggableId}`), {
         title: updatedTask.title,
         date: updatedTask.date,
         team: updatedTask.team,

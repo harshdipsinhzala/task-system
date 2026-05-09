@@ -7,6 +7,7 @@ import Textbox from "./Textbox";
 import Loading from "./Loader";
 import Button from "./Button";
 import { toast } from "sonner";
+import { apiUrl } from "../utils/api";
 
 const AddUser = ({ open, setOpen, userData, refetch }) => {
   const { user } = useSelector((state) => state.auth);
@@ -41,11 +42,9 @@ const AddUser = ({ open, setOpen, userData, refetch }) => {
 
   const handleOnSubmit = async (data) => {
     try {
-      const baseURL = "http://localhost:8800/api"; // ✅ Hardcoded API base URL
-
       const url = userData
-        ? `${baseURL}/user/${userData._id}`
-        : `${baseURL}/user`;
+        ? apiUrl(`/user/${userData._id}`)
+        : apiUrl("/user");
 
       const method = userData ? "PUT" : "POST";
 

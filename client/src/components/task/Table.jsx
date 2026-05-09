@@ -11,6 +11,7 @@ import UserInfo from "../UserInfo";
 import Button from "../Button";
 import ConfirmatioDialog from "../Dialogs";
 import axios from "axios";
+import { apiUrl } from "../../utils/api";
 
 const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
@@ -32,7 +33,7 @@ const Table = ({ tasks, onEdit, refetch }) => {
   const deleteHandler = async () => {
     try {
       await axios.put(
-        `http://localhost:8800/api/tasks/trash/${selected}`,
+        apiUrl(`/tasks/trash/${selected}`),
         {},
         {
           headers: {
