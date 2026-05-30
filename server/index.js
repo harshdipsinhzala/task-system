@@ -46,7 +46,7 @@ app.get("/health", (req, res) => {
 app.use("/api", routes);
 
 if (hasClientBuild) {
-  app.use(express.static(clientDistPath));
+  app.use(express.static(clientDistPath, { maxAge: "1d", etag: true }));
 
   app.get("*", (req, res, next) => {
     if (req.path.startsWith("/api")) return next();

@@ -2,6 +2,32 @@ import axios from "axios";
 import { apiUrl } from "./api.js";
 
 const API_URL = apiUrl("/tasks");
+const TASK_CACHE_TTL = 60 * 1000;
+
+let taskCache = {
+  data: null,
+  timestamp: 0,
+  token: null,
+};
+
+export const getCachedTasks = () => {
+  const token = localStorage.getItem("token");
+  const isFresh = Date.now() - taskCache.timestamp < TASK_CACHE_TTL;
+
+  if (taskCache.data && taskCache.token === token && isFresh) {
+    return taskCache.data;
+  }
+
+  return null;
+};
+
+export const invalidateTasksCache = () => {
+  taskCache = {
+    data: null,
+    timestamp: 0,
+    token: null,
+  };
+};
 
 const getToken = () => {
   const token = localStorage.getItem("token");
@@ -14,6 +40,7 @@ export const createTask = async (taskData) => {
   const response = await axios.post(`${API_URL}/create`, taskData, {
     headers: { Authorization: `Bearer ${token}` },
   });
+  invalidateTasksCache();
   return response.data;
 };
 
@@ -22,14 +49,26 @@ export const updateTask = async (taskId, updatedData) => {
   const response = await axios.put(`${API_URL}/${taskId}`, updatedData, {
     headers: { Authorization: `Bearer ${token}` },
   });
+  invalidateTasksCache();
   return response.data;
 };
 
-export const getTasks = async () => {
+export const getTasks = async ({ force = false } = {}) => {
   const token = getToken();
+  const cachedTasks = getCachedTasks();
+
+  if (!force && cachedTasks) {
+    return cachedTasks;
+  }
+
   const response = await axios.get(`${API_URL}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
+  taskCache = {
+    data: response.data,
+    timestamp: Date.now(),
+    token,
+  };
   return response.data;
 };
 
@@ -51,6 +90,7 @@ export const restoreTask = async (taskId) => {
       headers: { Authorization: `Bearer ${token}` },
     }
   );
+  invalidateTasksCache();
   return response.data;
 };
 
@@ -63,6 +103,7 @@ export const permanentDeleteTask = async (taskId) => {
       headers: { Authorization: `Bearer ${token}` },
     }
   );
+  invalidateTasksCache();
   return response.data;
 };
 
@@ -73,6 +114,7 @@ export const restoreAllTasks = async () => {
     const response = await axios.put(`${API_URL}/restore-all`, {}, {
       headers: { Authorization: `Bearer ${token}` },
     });
+    invalidateTasksCache();
     return response.data;
   } catch (error) {
     console.error("Error restoring all tasks:", error);
@@ -86,5 +128,6 @@ export const permanentDeleteAllTasks = async () => {
   const response = await axios.delete(`${API_URL}/delete-all?actionType=deleteAll`, {
     headers: { Authorization: `Bearer ${token}` },
   });
+  invalidateTasksCache();
   return response.data;
 };

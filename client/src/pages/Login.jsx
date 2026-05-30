@@ -49,7 +49,7 @@ const Login = () => {
           }
 
           setSuccessMessage("Login successful! Redirecting...");
-          setTimeout(() => navigate("/dashboard"), 2000);
+          navigate("/dashboard");
         } else {
           console.error("Login failed:", response?.message || "Unknown error");
           setErrorMessage(response?.message || "Invalid login credentials. Please try again.");
@@ -66,7 +66,7 @@ const Login = () => {
 
         if (response && response._id) {
           setSuccessMessage("Account created successfully! Redirecting...");
-          setTimeout(() => setIsLogin(true), 2000);
+          setIsLogin(true);
         } else {
           setErrorMessage(response?.message || "Something went wrong.");
         }

@@ -11,7 +11,7 @@ import TaskTitle from "../components/TaskTitle";
 import BoardView from "../components/BoardView";
 import Table from "../components/task/Table";
 import AddTask from "../components/task/AddTask";
-import { getTasks, updateTask } from "../utils/taskservice";
+import { getCachedTasks, getTasks, invalidateTasksCache } from "../utils/taskservice";
 
 const TABS = [
   { title: "Board View", icon: <MdGridView /> },
@@ -36,8 +36,14 @@ const Tasks = () => {
   const [editingTask, setEditingTask] = useState(null);
 
   const fetchTasks = async () => {
-    setLoading(true);
     try {
+      const cachedTasks = getCachedTasks();
+      if (cachedTasks) {
+        setTasks(cachedTasks.tasks || []);
+        return;
+      }
+
+      setLoading(true);
       const response = await getTasks();
       setTasks(response.tasks);
     } catch (err) {
@@ -57,13 +63,13 @@ const Tasks = () => {
     setOpen(true);
   };
 
-  const handleStatusChange = async (taskId, newStatus) => {
-    try {
-      await updateTask(taskId, { stage: newStatus });
-      fetchTasks();
-    } catch (err) {
-      console.error("Failed to update task status:", err.message);
-    }
+  const handleStatusChange = (taskId, newStatus) => {
+    invalidateTasksCache();
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task._id === taskId ? { ...task, stage: newStatus } : task
+      )
+    );
   };
 
   return loading ? (

@@ -14,7 +14,7 @@ import { summary } from "../assets/data";
 import clsx from "clsx";
 import { Chart } from "../components/Chart";
 import { PRIOTITYSTYELS, TASK_TYPE, getInitials } from "../utils";
-import { getTasks } from "../utils/taskservice";
+import { getCachedTasks, getTasks } from "../utils/taskservice";
 import { useSelector } from "react-redux";
 
 const TaskTable = ({ tasks }) => {
@@ -134,8 +134,14 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
+        const cachedTasks = getCachedTasks();
+        if (cachedTasks) {
+          setTasks(cachedTasks.tasks || []);
+          return;
+        }
+
         setLoading(true);
-        const response = await getTasks(user?.token);
+        const response = await getTasks();
         setTasks(response.tasks || []);
       } catch (error) {
         console.error("Error fetching tasks:", error);
