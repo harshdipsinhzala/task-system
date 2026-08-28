@@ -135,8 +135,7 @@ Backend:
 ```text
 /api/user
 /api/tasks
-/api/notifications
-/health
+
 ```
 
 ## Author
